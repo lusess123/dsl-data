@@ -1,0 +1,152 @@
+{
+  "cast": [
+    {
+      "key": "lin_zhou",
+      "name": "林舟",
+      "identity": "调查记者"
+    },
+    {
+      "key": "chen_mo",
+      "name": "陈默",
+      "identity": "失踪船主的弟弟"
+    },
+    {
+      "key": "zhao_qi",
+      "name": "赵琪",
+      "identity": "港口安保主管"
+    },
+    {
+      "key": "xu_ning",
+      "name": "许宁",
+      "identity": "法医顾问"
+    }
+  ],
+  "bonds": [
+    {
+      "source": "lin_zhou",
+      "relation": "friend",
+      "target": "xu_ning"
+    },
+    {
+      "source": "chen_mo",
+      "relation": "sibling",
+      "target": "lin_zhou"
+    },
+    {
+      "source": "chen_mo",
+      "relation": "rival",
+      "target": "zhao_qi"
+    },
+    {
+      "source": "zhao_qi",
+      "relation": "business_partner",
+      "target": "lin_zhou"
+    }
+  ],
+  "storyline": {
+    "opening": "harbor_arrival",
+    "timeline": [
+      {
+        "key": "harbor_arrival",
+        "at": "19:10",
+        "actor": "lin_zhou",
+        "event": "林舟抵达雾港，收到一段来自失踪船主的定时录音。",
+        "produces": [
+          "录音片段"
+        ],
+        "next": "choose_lead"
+      },
+      {
+        "key": "choose_lead",
+        "at": "19:25",
+        "actor": "lin_zhou",
+        "event": "录音同时指向监控盲区和废弃仓库，调查出现两条路线。",
+        "requires": [
+          "录音片段"
+        ],
+        "routes": {
+          "检查监控": "security_room",
+          "前往仓库": "warehouse_trace"
+        }
+      },
+      {
+        "key": "security_room",
+        "at": "20:00",
+        "actors": [
+          "lin_zhou",
+          "zhao_qi"
+        ],
+        "event": "赵琪提供了一段被剪辑过的监控，画面中出现陈默。",
+        "produces": [
+          "剪辑监控"
+        ],
+        "next": "cross_check"
+      },
+      {
+        "key": "warehouse_trace",
+        "at": "20:05",
+        "actors": [
+          "lin_zhou",
+          "chen_mo"
+        ],
+        "event": "仓库地面留下潮湿脚印和一枚破损的船舶定位器。",
+        "produces": [
+          "定位器"
+        ],
+        "next": "cross_check"
+      },
+      {
+        "key": "cross_check",
+        "at": "20:40",
+        "waitFor": [
+          "audio_analysis",
+          "tracker_analysis"
+        ],
+        "parallel": [
+          {
+            "key": "audio_analysis",
+            "actor": "xu_ning",
+            "event": "分析录音背景声，确认录制地点靠近旧灯塔。",
+            "produces": [
+              "灯塔线索"
+            ]
+          },
+          {
+            "key": "tracker_analysis",
+            "actor": "lin_zhou",
+            "event": "恢复定位器数据，发现船只最后停靠在旧灯塔外海。",
+            "produces": [
+              "航迹数据"
+            ]
+          }
+        ],
+        "next": "lighthouse_reveal"
+      },
+      {
+        "key": "lighthouse_reveal",
+        "at": "22:10",
+        "actors": [
+          "lin_zhou",
+          "chen_mo",
+          "zhao_qi"
+        ],
+        "event": "三人在灯塔对质，赵琪承认伪造监控是为掩盖一次秘密交易，但失踪船主仍然活着。",
+        "requires": [
+          "灯塔线索",
+          "航迹数据"
+        ],
+        "changes": [
+          {
+            "person": "zhao_qi",
+            "state": "suspected"
+          },
+          {
+            "person": "lin_zhou",
+            "state": "safe"
+          }
+        ],
+        "end": true
+      }
+    ]
+  }
+}
